@@ -21,20 +21,29 @@ const main = async () => {
                 const lugar = await leerInput("Ciudad: ")
                 const ciudades =  await busquedas.ciudad(lugar)
                 const idSeleccionado = await listadoLugares(ciudades)
-                
+                if(idSeleccionado === '0') continue
+
                 const {nombre,lat,lng} = ciudades.find(l => l.id === idSeleccionado)
+
+                busquedas.agregarHistorial(nombre)
+
+                const {desc,temp,max,min} = await busquedas.clima(lat,lng)
 
                 console.log('\nInformacion de la Ciudad\n'.green )
                 console.log('Ciudad:',nombre)
                 console.log('Lat:',lat)
                 console.log('Lng:',lng)
-                console.log('Temperatura:',)
-                console.log('Minima:',)
-                console.log('Maxima:',)
+                console.log('Temperatura:', temp)
+                console.log('Minima:',min)
+                console.log('Maxima:',max)
+                console.log('Descripcion:',desc)
                 break;
         
             case 2:
-                console.log(`escogio la opcion numero ${"2.".magenta}`);
+                busquedas.historialCapitalizado.forEach((each,index)=>{
+                    const idx = `${index +1}.`.green
+                    console.log(`${idx} ${each}`)
+                })
                 break;
             case 3:
                 console.log(`escogio la opcion numero ${"3.".magenta}`);
